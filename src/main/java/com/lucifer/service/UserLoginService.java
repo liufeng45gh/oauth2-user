@@ -330,4 +330,13 @@ public class UserLoginService {
 //		stringRedisTemplate.delete(RedisKeyPreConstant.USER_TOKEN_PRE+token);
 		userDao.removeToken(token);
 	}
+
+	public AccessToken getAccessTokenByCode(String code){
+		return userDao.getAccessTokenByCode(code);
+	}
+
+	public AccessToken getAccessTokenByToken(String accessToken){
+		return userDao.getAccessTokenByToken(accessToken);
+	}
+
 }

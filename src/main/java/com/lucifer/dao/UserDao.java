@@ -330,6 +330,13 @@ public class UserDao extends IBatisBaseDao {
 		this.sqlSession.update("removeToken",token);
 	}
 
+	public AccessToken getAccessTokenByCode(String code){
+		return this.sqlSession.selectOne("getAccessTokenByCode",code);
+	}
+
+	public AccessToken getAccessTokenByToken(String accessToken){
+		return this.sqlSession.selectOne("getAccessTokenByToken",accessToken);
+	}
 
 	
 	

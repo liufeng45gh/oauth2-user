@@ -184,7 +184,14 @@ public class UserService {
 	}
 	
 	
-	
+	public User getUserInfo(Long id){
+		User user = userDao.getUserById(id);
+		if (null != user) {
+			user.setPassword(null);
+			user.setSalt(null);
+		}
+		return user;
+	}
 
 	
 

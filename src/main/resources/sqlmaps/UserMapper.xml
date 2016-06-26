@@ -32,6 +32,12 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		<result column="updated_at" property="updatedAt"/>
 	</resultMap>
 
+	<resultMap type="com.lucifer.model.AccessToken" id="accessTokenMap">
+		<id column="user_id" property="userId"/>
+		<result column="accecc_token" property="accessToken"/>
+		<result column="code" property="code"/>
+	</resultMap>
+
 	
 	
 	<!-- 手机是否注册 -->	
@@ -75,6 +81,14 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	<delete id="removeToken">
 		delete from access_token where access_token = #{token}
 	</delete>
+	
+	<select id="getAccessTokenByCode" resultMap="accessTokenMap">
+		select * from access_token where code = #{code}
+	</select>
+
+	<select id="getAccessTokenByToken" resultMap="accessTokenMap">
+		select * from access_token where access_token = #{accessToken}
+	</select>
 
 
 </mapper>
