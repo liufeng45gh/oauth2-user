@@ -1,0 +1,25 @@
+server:
+   port: 8080
+   contextPath: /
+spring:
+  redis:
+    host: 123.59.84.71
+    port: 6379
+    password: 9hcom.com
+# DATASOURCE
+jdbc:
+    driverClass: com.mysql.jdbc.Driver
+    url: jdbc:mysql://114.215.101.61/auth_user?useUnicode=true&characterEncoding=utf-8&autoReconnect=true&rewriteBatchedStatements=TRUE&zeroDateTimeBehavior=convertToNull
+    username: root
+    password: lucifer
+# MyBatis
+
+mybatis:
+    typeAliasesPackage: com.lucifer
+    mapperLocations: classpath:/sqlmaps/*.xml
+    configLocation: classpath:/mybatis-config.xml
+
+
+
+
+

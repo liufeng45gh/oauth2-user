@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.lucier.model">
+	<resultMap type="com.lucifer.model.User" id="userMap">
+		<id column="id" property="userId"/>
+		<result column="uuid" property="uuid"/>
+		<result column="weixin_id" property="weixinId"/>
+		<result column="weibo_id" property="weiboId"/>
+		<result column="qq_id" property="qqId"/>
+		<result column="nh_id" property="nhId"/>
+		<result column="phone" property="phone"/>
+		<result column="mail" property="mail"/>
+		<result column="password" property="password"/>
+		<result column="salt" property="salt"/>
+		<result column="app_tag" property="appTag"/>
+		<result column="nick_name" property="nickName"/>
+		<result column="avatar" property="avatar"/>
+		<result column="true_name" property="trueName"/>
+		<result column="sex" property="sex"/>
+		<result column="province" property="province"/>
+		<result column="city" property="city"/>
+		<result column="cardId" property="cardId"/>
+		<result column="birth" property="birth"/>
+		<result column="nick_up_times" property="nickUpTimes"/>
+		<result column="fans_count" property="fansCount"/>
+		<result column="follows_count" property="followsCount"/>
+
+		<result column="created_at" property="createdAt"/>
+		<result column="updated_at" property="updatedAt"/>
+	</resultMap>
+
+	
+	
+	<!-- 手机是否注册 -->	
+	<select id="userCountByPhone" resultType="java.lang.Integer">
+	select count(*) from user where phone=#{phone}
+	</select>
+	
+
+	
+	<!-- getUserByid -->
+	<select id="getUserById"  resultMap="userMap">
+	select * from user where id=#{id}
+	</select>
+	<!-- getUserByAccout -->
+	<select id="getUserByAccount"  resultMap="userMap">
+	select * from user where account=#{account}
+	</select>
+	<!-- getUserByPhone -->
+	<select id="getUserByPhone"  resultMap="userMap">
+	select * from user where phone=#{phone}
+	</select>
+	
+
+	
+	<!-- getUserByWeiboId -->
+	<select id="getUserByWeiboId" resultMap="userMap">
+	select * from user where weibo_id=#{weiboId}
+	</select>
+	
+	<!-- getUserByWeixinId -->
+	<select id="getUserByWeixinId" resultMap="userMap">
+	select * from user where weixin_id=#{weixinId}
+	</select>
+
+	<select id="getUserIdByToken" resultType="java.lang.Long">
+		select user_id from access_token where access_token = #{token}
+	</select>
+	<update id="resetUserLoginToken">
+		update access_token set access_token = #{token} where user_id = #{userId}
+	</update>
+	<delete id="removeToken">
+		delete from access_token where access_token = #{token}
+	</delete>
+
+
+</mapper>
