@@ -2,7 +2,9 @@ package com.lucifer.service;
 
 
 import com.lucifer.dao.UserDao;
+import com.lucifer.exception.LoginException;
 import com.lucifer.exception.NoAuthException;
+import com.lucifer.model.AccessToken;
 import com.lucifer.model.User;
 import com.lucifer.utils.*;
 import org.apache.commons.httpclient.Header;
@@ -81,8 +83,8 @@ public class UserLoginService {
 			return Result.fail("密码错误");
 		}
 
-		String token = userDao.resetUserLoginToken(dbUser.getUserId());
-		return this.loginSuccess(dbUser,token);
+		AccessToken accessToken = userDao.resetUserLoginToken(dbUser.getUserId());
+		return this.loginSuccess(dbUser,accessToken.getAccessToken());
 //		dbUser.setPassword(user.getPassword());
 		//user.setPassword(Md5Utils.md5(user.getPassword()));
 		
@@ -92,7 +94,37 @@ public class UserLoginService {
 //		}		
 //		return Result.fail("密码错误");
 	}
-	
+
+	/**
+	 * 手机号登录
+	 * @param user
+	 * @return
+	 * @throws Exception
+	 */
+	public AccessToken oauth2LoginByPhone(User user) throws Exception{
+
+		User dbUser = userDao.getUserByPhone(user.getPhone());
+		if  (null == dbUser)  {
+			throw new LoginException("用户未找到");
+		}
+		String md5Password = Md5Utils.md5(Md5Utils.md5(user.getPassword())+dbUser.getSalt());
+		if (!md5Password.equals(dbUser.getPassword())) {
+			throw new LoginException("密码错误");
+		}
+
+		AccessToken accessToken = userDao.resetUserLoginToken(dbUser.getUserId());
+		return accessToken;
+//		dbUser.setPassword(user.getPassword());
+		//user.setPassword(Md5Utils.md5(user.getPassword()));
+
+//		String md5Password = Md5Utils.md5(Md5Utils.md5(user.getPassword())+dbUser.getSalt());
+//		if (md5Password.equals(dbUser.getPassword())) {
+//
+//		}
+//		return Result.fail("密码错误");
+	}
+
+
 	/**
 	 * 微博登录
 	 * @param user
@@ -123,8 +155,8 @@ public class UserLoginService {
 			//初始化
 			userService.userInit(dbUser.getUserId());
 		}
-		String token = userDao.resetUserLoginToken(dbUser.getUserId());
-		return  this.loginSuccess(dbUser,token);
+		AccessToken accessToken  = userDao.resetUserLoginToken(dbUser.getUserId());
+		return  this.loginSuccess(dbUser,accessToken.getAccessToken());
 		
 	}
 	/**
@@ -198,8 +230,8 @@ public class UserLoginService {
 			userService.userInit(user.getUserId());
 			dbUser =  userDao.getUserByWeixinId(user.getWeixinId());
 		}
-		String token = userDao.resetUserLoginToken(dbUser.getUserId());
-		return this.loginSuccess(dbUser,token);
+		AccessToken accessToken =  userDao.resetUserLoginToken(dbUser.getUserId());
+		return this.loginSuccess(dbUser,accessToken.getAccessToken());
 	}
 	
 	public Boolean checkWeixinToken(String accessToken,String openId) throws HttpException, IOException, JSONException {
@@ -289,8 +321,8 @@ public class UserLoginService {
 			userService.userInit(user.getUserId());
 			dbUser =  userDao.getUserByQqId(user.getQqId());
 		}
-		String token = userDao.resetUserLoginToken(dbUser.getUserId());
-		return this.loginSuccess(dbUser,token);
+		AccessToken accessToken =   userDao.resetUserLoginToken(dbUser.getUserId());
+		return this.loginSuccess(dbUser,accessToken.getAccessToken());
 	}
 
 	

@@ -70,7 +70,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		select user_id from access_token where access_token = #{token}
 	</select>
 	<update id="resetUserLoginToken">
-		update access_token set access_token = #{token} where user_id = #{userId}
+		update access_token set access_token = #{token}, code = #{code} where user_id = #{userId}
 	</update>
 	<delete id="removeToken">
 		delete from access_token where access_token = #{token}

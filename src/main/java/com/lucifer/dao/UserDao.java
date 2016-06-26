@@ -2,6 +2,7 @@ package com.lucifer.dao;
 
 import com.lucifer.cache.AppCache;
 import com.lucifer.cache.CacheProvider;
+import com.lucifer.model.AccessToken;
 import com.lucifer.model.User;
 import com.lucifer.utils.StringHelper;
 import org.apache.commons.lang.RandomStringUtils;
@@ -313,13 +314,16 @@ public class UserDao extends IBatisBaseDao {
 		return sqlSession.selectOne("getUserIdByToken",token);
 	}
 
-	public String resetUserLoginToken(Long userId){
+	public AccessToken resetUserLoginToken(Long userId){
+		AccessToken accessToken = new AccessToken();
 		String token = RandomStringUtils.randomAlphanumeric(20);
-		Map param = new HashMap<>();
-		param.put("userId",userId);
-		param.put("token",token);
-		this.sqlSession.update("resetUserLoginToken",param);
-		return token;
+		String code = RandomStringUtils.randomAlphanumeric(20);
+		accessToken.setAccessToken(token);
+		accessToken.setUserId(userId);
+		accessToken.setCode(code);
+
+		this.sqlSession.update("resetUserLoginToken",accessToken);
+		return accessToken;
 	}
 
 	public void removeToken(String token){
