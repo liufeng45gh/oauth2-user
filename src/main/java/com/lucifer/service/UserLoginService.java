@@ -101,9 +101,9 @@ public class UserLoginService {
 	 * @return
 	 * @throws Exception
 	 */
-	public AccessToken oauth2LoginByPhone(User user) throws Exception{
+	public AccessToken oauth2LoginByAccount(User user) throws Exception{
 
-		User dbUser = userDao.getUserByPhone(user.getPhone());
+		User dbUser = userDao.getUserByAccount(user.getAccount());
 		if  (null == dbUser)  {
 			throw new LoginException("用户未找到");
 		}
@@ -292,14 +292,7 @@ public class UserLoginService {
 		
 		User dbUser = userDao.getUserByQqId(user.getQqId());
 		
-		//按nhid查找匹配用户
-		if (null==dbUser) {
-			dbUser = userDao.getUserByNhId(user.getNhId());
-			if (null != dbUser) {
-				dbUser.setQqId(user.getQqId());
-				userDao.updateUserQqId(dbUser);
-			}	
-		}
+
 		
 		if (null==dbUser) {		
 			String account = "qq_"+RandomUtil.getNextAccount();

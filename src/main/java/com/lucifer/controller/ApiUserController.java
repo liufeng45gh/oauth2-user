@@ -2,6 +2,7 @@ package com.lucifer.controller;
 
 
 import com.lucifer.dao.UserDao;
+import com.lucifer.exception.ParamException;
 import com.lucifer.model.SearchParam;
 import com.lucifer.model.User;
 import com.lucifer.service.UserService;
@@ -119,6 +120,14 @@ public class ApiUserController {
 		PageInfoWriter pageInfo = PageInfoWriter.create(page, count, resultCount);
 		pageInfo.write(response);
 		return resultList;
+	}
+
+
+	@ApiOperation(value = "新建用户")
+	@RequestMapping(value="/v1/create-user",method=RequestMethod.POST)
+	@ResponseBody
+	public User create(@RequestBody User user) throws ParamException {
+		 return userService.createUser(user);
 	}
 
 }

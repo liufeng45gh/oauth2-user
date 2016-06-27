@@ -54,6 +54,14 @@ public class UserDao extends IBatisBaseDao {
 		keyPattern = "getUserLevel:*";
 		appCache.removeAll(keyPattern);
 	}
+
+	//@Cacheable(value="userByPhoneCache", key="'userByPhoneCache:'+#phone")//
+	public User getUserByAccount(String account){
+		logger.info("----getUserByAccount has been called!--");
+		//return (User)sqlSession.selectOne("getUserByPhone", phone);
+		return sqlSession.selectOne("getUserByAccount", account);
+
+	}
 	
 	//@Cacheable(value="userByPhoneCache", key="'userByPhoneCache:'+#phone")// 
 	public User getUserByPhone(final String phone){
@@ -99,12 +107,7 @@ public class UserDao extends IBatisBaseDao {
 		return (User)sqlSession.selectOne("getUserByQqId", qqId);
 	}
 	
-	public User getUserByNhId(String nhId){
-		if (StringHelper.isEmpty(nhId)) {
-			return null;
-		}
-		return (User)sqlSession.selectOne("getUserByNhId", nhId);
-	}
+
 	
 	//@CacheEvict(value="userByIdCache",key="#user.getUserId()")// 清空Cache 缓存  
 	

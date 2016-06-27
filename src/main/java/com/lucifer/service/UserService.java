@@ -4,10 +4,10 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 import com.lucifer.dao.UserDao;
+import com.lucifer.exception.ParamException;
 import com.lucifer.model.SearchParam;
 import com.lucifer.model.User;
-import com.lucifer.utils.Result;
-import com.lucifer.utils.StringHelper;
+import com.lucifer.utils.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,6 +20,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+import java.util.UUID;
 
 @Service
 public class UserService {
@@ -190,6 +191,28 @@ public class UserService {
 			user.setPassword(null);
 			user.setSalt(null);
 		}
+		return user;
+	}
+
+	public User createUser(User user) throws ParamException {
+		if (StringHelper.isEmpty(user.getAccount())) {
+			 throw new ParamException("账号传入不能为空");
+		}
+		if (StringHelper.isEmpty(user.getPassword())) {
+			throw new ParamException("密码传入不能为空");
+		}
+		if (!user.getPassword().equals(user.getRePassword())) {
+			throw new ParamException("2次密码不一致");
+		}
+		String salt = RandomUtil.getNextSalt();
+		user.setSalt(salt);
+		String encrypt_password = Md5Utils.md5(Md5Utils.md5(user.getPassword()) + salt);
+		user.setPassword(encrypt_password);
+		UUID uuid = UUID.randomUUID();
+		user.setUuid(uuid.toString());
+		user.setCreatedAt(DateUtils.now());
+		user.setUpdatedAt(DateUtils.now());
+		userDao.insertUser(user);
 		return user;
 	}
 

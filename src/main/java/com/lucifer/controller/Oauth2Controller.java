@@ -54,7 +54,7 @@ public class Oauth2Controller {
                         @RequestParam(value = "client_id") String clientId,
                         @RequestParam(value = "redirect_uri")String redirectUri,
                         User user) throws Exception {
-        AccessToken accessToken = userLoginService.oauth2LoginByPhone(user);
+        AccessToken accessToken = userLoginService.oauth2LoginByAccount(user);
         String url = null;
         if ("code".equals(responseType)) {
             url = redirectUri+"?code="+accessToken.getCode();
