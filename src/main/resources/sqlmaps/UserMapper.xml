@@ -15,7 +15,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		<result column="mail" property="mail"/>
 		<result column="password" property="password"/>
 		<result column="salt" property="salt"/>
-		<result column="app_tag" property="appTag"/>
+		<result column="role" property="role"/>
 		<result column="nick_name" property="nickName"/>
 		<result column="avatar" property="avatar"/>
 		<result column="true_name" property="trueName"/>
@@ -71,6 +71,12 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	<select id="getUserByWeixinId" resultMap="userMap">
 	select * from user where weixin_id=#{weixinId}
 	</select>
+	<update id="updatePassword">
+		update user set password = #{password} where id = #{userId}
+	</update>
+	<update id="updateUserNick">
+		update user set nick_name = #{nickName} where id = #{userId}
+	</update>
 
 	<select id="getUserIdByToken" resultType="java.lang.Long">
 		select user_id from access_token where access_token = #{token}

@@ -15,6 +15,8 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.json.JSONException;
 import org.json.JSONObject;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.stereotype.Service;
@@ -38,9 +40,9 @@ public class UserLoginService {
 	
 	@Resource
 	private UserDao userDao;
-	
-	
-	private static  Log log = LogFactory.getLog(UserLoginService.class);
+
+
+	final Logger logger = LoggerFactory.getLogger(this.getClass());
 
 
 	/**
@@ -178,15 +180,15 @@ public class UserLoginService {
 	
 	public JSONObject  getWeiboUserInfo(String accessToken,String uid) throws IOException, KeyManagementException, NoSuchAlgorithmException, JSONException {
 		String url = "https://api.weibo.com/2/users/show.json?access_token="+accessToken+"&uid="+uid;
-		String result = HttpsUtil.getAsString(url, "utf-8"); 
-		log.info(result);
+		String result = HttpsUtil.getAsString(url, "utf-8");
+		logger.info(result);
 		return new JSONObject(result);
 	}
 	
 	public String getWeiboUidByAccessToken(String accessToken) throws KeyManagementException, NoSuchAlgorithmException, IOException, JSONException {
 		String url = "https://api.weibo.com/2/account/get_uid.json?access_token="+accessToken;
 		String jsonString = HttpsUtil.getAsString(url, "utf-8");
-		log.info("getWeiboUidByAccessToken body is : "+jsonString);
+		logger.info("getWeiboUidByAccessToken body is : "+jsonString);
 		JSONObject jsonObject =  new JSONObject(jsonString);
 		return jsonObject.getString("uid");
 	}
@@ -240,12 +242,12 @@ public class UserLoginService {
 		httpClient.executeMethod(get);
 		Header[] headers = get.getResponseHeaders();
 		int statusCode = get.getStatusCode();
-		log.info("statusCode:"+statusCode);
+		logger.info("statusCode:"+statusCode);
 		for(Header h : headers){
 			//log.info(h);
 		}
-		String result = new String(get.getResponseBodyAsString().getBytes("utf8")); 
-		log.info(result);
+		String result = new String(get.getResponseBodyAsString().getBytes("utf8"));
+		logger.info(result);
 		JSONObject resultJ=  new JSONObject(result);
 		if  (0 == resultJ.getInt("errcode"))  {
 			return true;
@@ -267,12 +269,12 @@ public class UserLoginService {
 		httpClient.executeMethod(get);
 		Header[] headers = get.getResponseHeaders();
 		int statusCode = get.getStatusCode();
-		log.info("statusCode:"+statusCode);
+		logger.info("statusCode:"+statusCode);
 		for(Header h : headers){
 			//log.info(h);
 		}
-		String result = new String(get.getResponseBodyAsString().getBytes("utf8")); 
-		log.info(result);
+		String result = new String(get.getResponseBodyAsString().getBytes("utf8"));
+		logger.info(result);
 		JSONObject resultJ=  new JSONObject(result);
 		return resultJ;
 	}
@@ -330,6 +332,19 @@ public class UserLoginService {
 
 	public AccessToken getAccessTokenByToken(String accessToken){
 		return userDao.getAccessTokenByToken(accessToken);
+	}
+
+	public Result cmsLoginByAccount(String account,String password) throws Exception{
+		User dbUser = userDao.getUserByAccount(account);
+		if  (null == dbUser)  {
+			return Result.fail("用户未找到");
+		}
+		String md5Password = Md5Utils.md5(Md5Utils.md5(password)+dbUser.getSalt());
+		logger.info("md5Password: "+md5Password);
+		if (!md5Password.equals(dbUser.getPassword())) {
+			return Result.fail("密码错误");
+		}
+		return Result.ok(dbUser);
 	}
 
 }

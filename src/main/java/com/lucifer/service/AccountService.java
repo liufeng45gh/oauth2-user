@@ -216,4 +216,17 @@ public class AccountService {
 		return userDao.allUserCount();
 	}
 
+	public boolean resetPassword(String account,String oldPass,String newPass){
+		User user = userDao.getUserByAccount(account);
+		String md5OldPassword = Md5Utils.md5(Md5Utils.md5(oldPass)+user.getSalt());
+		if(md5OldPassword.equals(user.getPassword())){
+			String md5NewPassword = Md5Utils.md5(Md5Utils.md5(newPass)+user.getSalt());
+			user.setPassword(md5NewPassword);
+			userDao.updatePassword(user);
+			return true;
+		}else{
+			return false;
+		}
+	}
+
 }

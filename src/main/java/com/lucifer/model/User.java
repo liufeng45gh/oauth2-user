@@ -46,8 +46,7 @@ public class User implements Serializable{
 	// qq_id     QQ绑定ID,允许为空
 	private String qqId;
 	
-	//用户中心
-	private String nhId;
+
 	
 	// account   账号(系统自动生成规则QQ+?  WX+?  WB+? Phone+?) 极客学院的案例:weibo_1xvrf8hs
 	private String account;
@@ -68,7 +67,7 @@ public class User implements Serializable{
 	private String salt;
 	
 	// app_tag   在不同的App上的激活标签
-	private String appTag;
+	private String role;
 	
 	//验证码
 	private String code;
@@ -223,12 +222,12 @@ public class User implements Serializable{
 		this.salt = salt;
 	}
 
-	public String getAppTag() {
-		return appTag;
+	public String getRole() {
+		return role;
 	}
 
-	public void setAppTag(String appTag) {
-		this.appTag = appTag;
+	public void setRole(String role) {
+		this.role = role;
 	}
 
 	public String getRePassword() {
@@ -356,13 +355,7 @@ public class User implements Serializable{
 
 
 
-	public String getNhId() {
-		return nhId;
-	}
 
-	public void setNhId(String nhId) {
-		this.nhId = nhId;
-	}
 	
 	@DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
 	@JsonSerialize(using=DateTimeSerializer.class)

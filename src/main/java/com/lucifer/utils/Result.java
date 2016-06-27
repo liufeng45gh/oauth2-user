@@ -28,8 +28,8 @@ public class Result {
 		this.message = message;
 	}
 
-	public Object getData() {
-		return data;
+	public <T> T  getData() {
+		return  (T)data;
 	}
 
 	public void setData(Object data) {

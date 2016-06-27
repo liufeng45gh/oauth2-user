@@ -43,7 +43,7 @@ public class Oauth2Controller {
         model.addAttribute("client_id",clientId);
         model.addAttribute("redirect_uri",redirectUri);
         logger.info("authorize has been called");
-        return "login";
+        return "oauth2/login";
     }
 
     @ApiOperation(value = "oauth2登录")
