@@ -101,7 +101,7 @@ public class ApiAccountController {
 	@RequestMapping(value="/v1/bind-phone/{user_id}",method=RequestMethod.POST)
 	@ResponseBody
 	public Result bindPhone(@RequestBody User user,@PathVariable("user_id") Long userId,@CookieValue String token) throws Exception{
-		user.setUserId(userId);
+		user.setId(userId);
 		return accountService.bindPhone(user,token);		
 	}
 	
@@ -139,7 +139,7 @@ public class ApiAccountController {
 	@RequestMapping(value="/v1/re-bind-phone/{user_id}",method=RequestMethod.POST)
 	@ResponseBody
 	public Result reBindPhone(@RequestBody User user,@PathVariable("user_id") Long userId,@CookieValue String token) throws Exception{
-		user.setUserId(userId);
+		user.setId(userId);
 		return accountService.reBindPhone(user,token);
 	}
 	

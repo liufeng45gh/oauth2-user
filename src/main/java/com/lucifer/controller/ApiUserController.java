@@ -94,7 +94,7 @@ public class ApiUserController {
 	@RequestMapping(value="/v1/users/{userId}",method=RequestMethod.POST)
 	@ResponseBody
 	public Result updateUserInfo(@CookieValue String token,@RequestBody User user,@PathVariable Long userId) throws IOException{
-		user.setUserId(userId);
+		user.setId(userId);
 		Result result =  userService.updateUserInfo(token, user);
 		if (!result._isOk()) {
 			return result;

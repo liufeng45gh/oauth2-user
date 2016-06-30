@@ -85,7 +85,7 @@ public class UserLoginService {
 			return Result.fail("密码错误");
 		}
 
-		AccessToken accessToken = userDao.resetUserLoginToken(dbUser.getUserId());
+		AccessToken accessToken = userDao.resetUserLoginToken(dbUser.getId());
 		return this.loginSuccess(dbUser,accessToken.getAccessToken());
 //		dbUser.setPassword(user.getPassword());
 		//user.setPassword(Md5Utils.md5(user.getPassword()));
@@ -114,7 +114,7 @@ public class UserLoginService {
 			throw new LoginException("密码错误");
 		}
 
-		AccessToken accessToken = userDao.resetUserLoginToken(dbUser.getUserId());
+		AccessToken accessToken = userDao.resetUserLoginToken(dbUser.getId());
 		return accessToken;
 //		dbUser.setPassword(user.getPassword());
 		//user.setPassword(Md5Utils.md5(user.getPassword()));
@@ -155,9 +155,9 @@ public class UserLoginService {
 			dbUser =  userDao.getUserByWeiboId(user.getWeiboId());
 			
 			//初始化
-			userService.userInit(dbUser.getUserId());
+			userService.userInit(dbUser.getId());
 		}
-		AccessToken accessToken  = userDao.resetUserLoginToken(dbUser.getUserId());
+		AccessToken accessToken  = userDao.resetUserLoginToken(dbUser.getId());
 		return  this.loginSuccess(dbUser,accessToken.getAccessToken());
 		
 	}
@@ -229,10 +229,10 @@ public class UserLoginService {
 			//userDao.updateUserInfo(user);
 			//user.setUserId(userId);
 			//初始化
-			userService.userInit(user.getUserId());
+			userService.userInit(user.getId());
 			dbUser =  userDao.getUserByWeixinId(user.getWeixinId());
 		}
-		AccessToken accessToken =  userDao.resetUserLoginToken(dbUser.getUserId());
+		AccessToken accessToken =  userDao.resetUserLoginToken(dbUser.getId());
 		return this.loginSuccess(dbUser,accessToken.getAccessToken());
 	}
 	
@@ -313,10 +313,10 @@ public class UserLoginService {
 			//userDao.updateUserInfo(user);
 			//user.setUserId(userId);
 			//初始化
-			userService.userInit(user.getUserId());
+			userService.userInit(user.getId());
 			dbUser =  userDao.getUserByQqId(user.getQqId());
 		}
-		AccessToken accessToken =   userDao.resetUserLoginToken(dbUser.getUserId());
+		AccessToken accessToken =   userDao.resetUserLoginToken(dbUser.getId());
 		return this.loginSuccess(dbUser,accessToken.getAccessToken());
 	}
 

@@ -58,7 +58,7 @@ public class AccountService {
 		//user.setNickName("用户"+user.getUserId());
 		//userDao.initUserNick(user);
 		//初始化
-		userService.userInit(user.getUserId());
+		userService.userInit(user.getId());
 		
 		//登录
 		user.setPassword(user.getRePassword());
@@ -100,7 +100,7 @@ public class AccountService {
 			return Result.fail("2次密码不一致");
 		}
 		
-		User dbUser = userDao.getUserById(user.getUserId());
+		User dbUser = userDao.getUserById(user.getId());
 		
 		
 		if (null == dbUser) {
@@ -132,7 +132,7 @@ public class AccountService {
 	
 	
 	public Result checkPassword(User user){
-		User dbUser = userDao.getUserById(user.getUserId());
+		User dbUser = userDao.getUserById(user.getId());
 		if  (null == dbUser)  {
 			return Result.fail("用户未找到");
 		}
@@ -150,7 +150,7 @@ public class AccountService {
 			return Result.fail("验证码错误");
 		}
 		
-		User dbUser = userDao.getUserById(user.getUserId());
+		User dbUser = userDao.getUserById(user.getId());
 		
 		if  (null == dbUser)  {
 			return Result.fail("未找到用户");
@@ -166,7 +166,7 @@ public class AccountService {
 		if (isExist) {
 			return Result.fail("该手机号已被占用");
 		}
-		user.setUserId(dbUser.getUserId());
+		user.setId(dbUser.getId());
 //		Result resultUserCenter = userCenterService.reBindPhone(user, token);
 //		if (!resultUserCenter._isOk()) {
 //			return resultUserCenter;

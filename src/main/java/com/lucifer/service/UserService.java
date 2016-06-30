@@ -69,7 +69,7 @@ public class UserService {
 	}
 	
 	public Result updateNick(User user) throws IOException{
-		User dbUser = userDao.getUserById(user.getUserId());
+		User dbUser = userDao.getUserById(user.getId());
 		
 		if (StringHelper.isEmpty(user.getNickName())) {
 			return Result.ok();

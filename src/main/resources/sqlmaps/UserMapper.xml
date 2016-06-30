@@ -5,7 +5,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 
 <mapper namespace="com.lucier.model">
 	<resultMap type="com.lucifer.model.User" id="userMap">
-		<id column="id" property="userId"/>
+		<id column="id" property="id"/>
 		<result column="uuid" property="uuid"/>
 		<result column="weixin_id" property="weixinId"/>
 		<result column="weibo_id" property="weiboId"/>
@@ -27,7 +27,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		<result column="nick_up_times" property="nickUpTimes"/>
 		<result column="fans_count" property="fansCount"/>
 		<result column="follows_count" property="followsCount"/>
-
+		<result column="status" property="status"/>
 		<result column="created_at" property="createdAt"/>
 		<result column="updated_at" property="updatedAt"/>
 	</resultMap>
@@ -72,10 +72,10 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	select * from user where weixin_id=#{weixinId}
 	</select>
 	<update id="updatePassword">
-		update user set password = #{password} where id = #{userId}
+		update user set password = #{password} where id = #{id}
 	</update>
 	<update id="updateUserNick">
-		update user set nick_name = #{nickName} where id = #{userId}
+		update user set nick_name = #{nickName} where id = #{id}
 	</update>
 
 	<select id="getUserIdByToken" resultType="java.lang.Long">
@@ -94,6 +94,24 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 
 	<select id="getAccessTokenByToken" resultMap="accessTokenMap">
 		select * from access_token where access_token = #{accessToken}
+	</select>
+
+	<select id="getUserInfoListCount" resultType="java.lang.Integer">
+		select count(*) from user where 1= 1
+		<if test="account != null">
+			and account=#{account}
+		</if>
+	</select>
+
+	<select id="getUserInfoList" resultMap="userMap">
+		select user.* from user where 1= 1
+		<if test="account != null">
+			and user.account=#{account}
+		</if>
+		order by user.id desc
+		<if test="offset != null and perPageCount != null">
+			limit #{offset},#{perPageCount}
+		</if>
 	</select>
 
 

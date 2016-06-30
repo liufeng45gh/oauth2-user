@@ -118,7 +118,7 @@ public class UserDao extends IBatisBaseDao {
 	public User insertUser(User user){		
 		//this.removeUserCache(user);
 		 
-		user.setUserId(this.nextId());
+		user.setId(this.nextId());
 		user.setNickName(user.getAccount());
 		sqlSession.insert("insertUser",user);
 		//redisTemplate.opsForList().leftPush(RedisKeyPreConstant.USER_WILL_INSERT_QUEQUE, user);
@@ -138,11 +138,11 @@ public class UserDao extends IBatisBaseDao {
 		appCache.remove(key);
 		key = "getUserByWeixinId:"+user.getWeixinId();
 		appCache.remove(key);
-		key = "getUserById:"+user.getUserId();
+		key = "getUserById:"+user.getId();
 		appCache.remove(key);
-		key = "getUserPoint:"+user.getUserId();
+		key = "getUserPoint:"+user.getId();
 		appCache.remove(key);
-		key = "getUserLevel:"+user.getUserId();
+		key = "getUserLevel:"+user.getId();
 		appCache.remove(key);
 		
 	}
@@ -156,7 +156,7 @@ public class UserDao extends IBatisBaseDao {
 	 */
 	//@CacheEvict(value="userByIdCache",key="#user.getUserId()")// 清空accountCache 缓存  
 	public Integer updatePassword(User user){
-		String key = "getUserById:"+user.getUserId();
+		String key = "getUserById:"+user.getId();
 		appCache.remove(key);
 		return sqlSession.update("updatePassword", user);
 	}
@@ -170,28 +170,28 @@ public class UserDao extends IBatisBaseDao {
 //	@Caching( evict = { @CacheEvict(value="userByIdCache",key="#user.getUserId()"),
 //	         @CacheEvict(value="userByPhoneCache",key="#user.getPhone()") })
 	public Integer userBindPhone(User user){	
-		User dbUser = this.getUserById(user.getUserId());
+		User dbUser = this.getUserById(user.getId());
 		//删除huan
 		this.removeUserCache(dbUser);
 		return sqlSession.update("userBindPhone", user);
 	}
 	
 	public Integer updateUserWeiboId(User user) {
-		User dbUser = this.getUserById(user.getUserId());
+		User dbUser = this.getUserById(user.getId());
 		//删除huan
 		this.removeUserCache(dbUser);
 		return sqlSession.update("updateUserWeiboId", user);
 	}
 	
 	public Integer updateUserWeixinId(User user) {
-		User dbUser = this.getUserById(user.getUserId());
+		User dbUser = this.getUserById(user.getId());
 		//删除huan
 		this.removeUserCache(dbUser);
 		return sqlSession.update("updateUserWeixinId", user);
 	}
 	
 	public Integer updateUserQqId(User user) {
-		User dbUser = this.getUserById(user.getUserId());
+		User dbUser = this.getUserById(user.getId());
 		//删除huan
 		this.removeUserCache(dbUser);
 		return sqlSession.update("updateUserQqId", user);
@@ -214,7 +214,7 @@ public class UserDao extends IBatisBaseDao {
 
 	//@CacheEvict(value="userByIdCache",key="#user.getUserId()")// 清空accountCache 缓存  
 	public Integer updateUserInfo(User user){
-		User dbUser = this.getUserById(user.getUserId());
+		User dbUser = this.getUserById(user.getId());
 		this.removeUserCache(dbUser);
 		Integer updateCount = sqlSession.update("updateUserInfo",user);		
 		return updateCount;
@@ -341,7 +341,18 @@ public class UserDao extends IBatisBaseDao {
 		return this.sqlSession.selectOne("getAccessTokenByToken",accessToken);
 	}
 
-	
-	
+	@SuppressWarnings({ "unchecked", "rawtypes" })
+	public List<User> getUserInfoList(Map params){
+		return sqlSession.selectList("getUserInfoList", params);
+	}
+
+	@SuppressWarnings("rawtypes")
+	public Integer getUserInfoListCount(Map params){
+		return (Integer)sqlSession.selectOne("getUserInfoListCount", params);
+	}
+
+
+
+
 
 }

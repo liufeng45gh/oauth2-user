@@ -29,7 +29,7 @@ public class User implements Serializable{
 	static final Logger logger = LoggerFactory.getLogger(User.class);
 
 	// id        自增长(长整,以下所有id字段皆为该规则)
-	private Long userId;
+	private Long id;
 	
 	// uuid      uuid生成规则(App侧调用)
 	private String uuid;
@@ -71,6 +71,8 @@ public class User implements Serializable{
 	
 	//验证码
 	private String code;
+
+	private String status;
 	
 	//第三方token
 	private String accessToken;
@@ -107,13 +109,7 @@ public class User implements Serializable{
 	private Integer followsCount;
 	
 	private Integer nickUpTimes;
-	
 
-	
-
-	
-
-	
 	// 创建时间（记录）
 	@DateTimeFormat(pattern="yyyy-MM-dd HH:mm:ss")
 	protected  Date createdAt;
@@ -134,12 +130,12 @@ public class User implements Serializable{
 	public User() {
 	}
 
-	public Long getUserId() {
-		return userId;
+	public Long getId() {
+		return id;
 	}
 
-	public void setUserId(Long userId) {
-		this.userId = userId;
+	public void setId(Long id) {
+		this.id = id;
 	}
 
 	public String getUuid() {
@@ -353,10 +349,6 @@ public class User implements Serializable{
 		this.fansCount = fansCount;
 	}
 
-
-
-
-	
 	@DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
 	@JsonSerialize(using=DateTimeSerializer.class)
 	public Date getCreatedAt() {
@@ -380,9 +372,12 @@ public class User implements Serializable{
 		this.updatedAt = updatedAt;
 	}
 
-	
 
+	public String getStatus() {
+		return status;
+	}
 
-
-	
+	public void setStatus(String status) {
+		this.status = status;
+	}
 }
