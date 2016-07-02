@@ -5,7 +5,7 @@
 	<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
 	<link rel="stylesheet" href="/cms/css/admin.css">
 	<link rel="shortcut icon" href="/cms/images/favicon.ico">
-	<script type="text/javascript" charset="UTF-8" src="/web/script/jquery-1.9.1.min.js"></script>
+	<script type="text/javascript" charset="UTF-8" src="/cms/script/jquery-1.9.1.min.js"></script>
 	
 </head>
 <body style="zoom: 1;"><div class="" style="display: none; position: absolute;"><div class="aui_outer"><table class="aui_border"><tbody><tr><td class="aui_nw"></td><td class="aui_n"></td><td class="aui_ne"></td></tr><tr><td class="aui_w"></td><td class="aui_c"><div class="aui_inner"><table class="aui_dialog"><tbody><tr><td colspan="2" class="aui_header"><div class="aui_titleBar"><div class="aui_title" style="cursor: move; display: block;"></div><a class="aui_close" href="javascript:/*artDialog*/;" style="display: block;">×</a></div></td></tr><tr><td class="aui_icon" style="display: none;"><div class="aui_iconBg" style="background: none;"></div></td><td class="aui_main" style="width: auto; height: auto;"><div class="aui_content" style="padding: 20px 25px;"></div></td></tr><tr><td colspan="2" class="aui_footer"><div class="aui_buttons" style="display: none;"></div></td></tr></tbody></table></div></td><td class="aui_e"></td></tr><tr><td class="aui_sw"></td><td class="aui_s"></td><td class="aui_se" style="cursor: se-resize;"></td></tr></tbody></table></div></div>
@@ -65,11 +65,16 @@
 					
 					<td>${user.nickName}</td>
 					<td>${user.role?default("普通用户")}</td>
-					<td>${user.status?default("")}</td>
+					<td>${user.status?default("")}<#if user.status?default("") = "1">  已禁用 <#else> 正常  </#if>  </td>
 					
 					<td>
-						<a href="#">修改</a>
-						<a href="javascript:void(0)" onclick="delModel({link:'/iwebshop/index.php?controller=goods&amp;action=goods_del&amp;id=1'})">删除</a>
+						<a href="#">重置密码</a><span>|</span>
+						<#if user.status?default("") = "1">
+						    <a href="javascript:void(0)" onclick="forbiddenUser(${user.id})">恢复用户</a>
+						<#else>
+						    <a href="javascript:void(0)" onclick="activation(${user.id})">禁用用户</a>
+						</#if>
+
 					</td>
 				</tr>
 			</#list>

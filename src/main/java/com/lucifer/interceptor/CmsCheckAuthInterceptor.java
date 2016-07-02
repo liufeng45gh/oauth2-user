@@ -13,6 +13,9 @@ public class CmsCheckAuthInterceptor extends HandlerInterceptorAdapter{
 	private static  Log log = LogFactory.getLog(CmsCheckAuthInterceptor.class);
 
 	@Override
+	/**
+	 * 在请求处理之前进行调用（Controller方法调用之前）
+	 */
 	public boolean preHandle(HttpServletRequest request,
             HttpServletResponse response, Object handler) throws Exception{
 		
@@ -22,6 +25,15 @@ public class CmsCheckAuthInterceptor extends HandlerInterceptorAdapter{
 		//log.info(request.getContextPath());
 		//log.info(request.getRequestURI());
 		if("/cms/login".equals(request.getRequestURI())){
+			return true;
+		}
+		if(request.getRequestURI().startsWith("/cms/css")){
+			return true;
+		}
+		if(request.getRequestURI().startsWith("/cms/images")){
+			return true;
+		}
+		if(request.getRequestURI().startsWith("/cms/script")){
 			return true;
 		}
 		User user = (User)request.getSession().getAttribute(Constant.KEY_CMS_USER);
