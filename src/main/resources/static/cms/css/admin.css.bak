@@ -2,7 +2,8 @@
 /* common style start */
 body,div,dl,dt,dd,ul,ol,li,h1,h2,h3,h4,h5,h6,pre,form,fieldset,input,textarea,p,blockquote,th,td,button{padding:0;margin:0;font-size:100%}
 label input{vertical-align:middle}
-
+a:link,a:visited{text-decoration:none;color:#000}
+a:hover,a:active{text-decoration:none}
 html, body{margin-bottom:30px;}
 body{font:12px/1.5 arial,verdana;color:black;background-color:#fcfcfc;text-align:center}
 img{border:0}
@@ -67,7 +68,7 @@ img.operator{width:12px;height:12px;margin:0 6px;cursor:pointer; vertical-align:
 /* arrows style end */
 .container{width:100%;margin:0 auto}
 /* header style start */
-/*#header{position:relative;height:67px;border-top:4px solid #ec6b10;border-bottom:1px solid #ff1e02;background:#fff url(/cms/images/header_bg.gif) no-repeat center 0}*/
+#header{position:relative;height:67px;border-top:4px solid #ec6b10;border-bottom:1px solid #ff1e02;background:#fff url(/cms/images/header_bg.gif) no-repeat center 0}
 	.logo{display:inline;float:left;width:303px;height:43px;margin:12px 0 0 25px}
 	#menu{position:absolute;left:355px;bottom:0;_bottom:-1px;z-index:22;background:url(/cms/images/admin_bg.gif) no-repeat right -387px;_background:none}
 		#menu ul{height:28px;padding:3px 2px 0 2px;background:none;background:url(/cms/images/admin_bg.gif) no-repeat 0 -356px;overflow:hidden}
@@ -83,12 +84,19 @@ img.operator{width:12px;height:12px;margin:0 6px;cursor:pointer; vertical-align:
 		#header p a.selected{border:1px #f99840 solid;background:url(/cms/images/admin_bg.gif) repeat-x 0 -418px}
 /* header style end */
 /* info_bar style start */
-
-
+#info_bar{position:relative;height:36px;color:#373737;text-align:left;background:url(/cms/images/admin_bg.gif) repeat-x 0 -155px; text-align:right}
+	#info_bar .navindex{display:inline-block;height:21px;margin:6px 6px 0 6px;padding:0 0 0 8px;background:url(/cms/images/admin_bg.gif) no-repeat 0 -250px}
+		#info_bar .navindex a{display:inline-block;height:19px;padding:2px 8px 0 0;color:#fff;background:url(/cms/images/admin_bg.gif) no-repeat right -250px}
+	#info_bar span.tips{display:block;float:left;width:150px;height:33px;padding-left:27px;line-height:33px;overflow:hidden;background:url(/cms/images/icon.gif) 6px -491px no-repeat}
+		#info_bar span.tips a{color:#000}
+			#info_bar span.tips a label{margin-left:5px;color:#eb6100}
+	#info_bar .nav_sec{position:absolute;left:180px;line-height:36px}
+		#info_bar .nav_sec a{margin:0 8px;color:#333}
+		#info_bar .nav_sec a.selected{color:#ec6941}
 /* info_bar style end */
 #separator{position:absolute;top:266px;left:180px;z-index:25;width:6px;height:85px;background:url(/cms/images/admin_bg.gif) no-repeat 0 -440px;cursor:pointer}
 /* admin_left style start */
-#admin_left{position:absolute;left:10px;bottom:0;top:28px;z-index:100;width:174px;padding:0 0 0 5px;z-index:11;border-right:1px #d7d7d7 solid;text-align:left;overflow-x:hidden;overflow-y:auto}
+#admin_left{position:absolute;left:0;bottom:0;top:108px;z-index:100;width:174px;padding:0 0 0 5px;z-index:11;border-right:1px #d7d7d7 solid;text-align:left;background-color:#fffcf3;overflow-x:hidden;overflow-y:auto}
 	#admin_left ul.submenu{margin-top:10px}
 		#admin_left ul.submenu li span{display:block;padding:0 5px 0 22px;height:22px;line-height:21px;font-weight:bold;color:#f77804;cursor:pointer;background:url(/cms/images/icon.gif) 8px -546px no-repeat}
 		#admin_left ul.submenu li span.selected{background:url(/cms/images/icon.gif) 8px -529px no-repeat}
@@ -162,7 +170,7 @@ img.operator{width:12px;height:12px;margin:0 6px;cursor:pointer; vertical-align:
 .form_content{background:url(../images/admin/form_bg.gif) -10px 0 repeat-y;*background:url(../images/admin/form_bg.gif) repeat-y;}
 
 .table_new{float:left;width:100%;margin-top:10px;table-layout:fixed; border:1px solid #ccc;width:100%}
-.table_new th{border:1px dotted #ccc;color:#333333;font-weight:bold;white-space:nowrap;font-size:14px;padding:5px 5px;}
+.table_new th{border:1px dotted #ccc;color:#333333;font-weight:bold;white-space:nowrap;background-color:#f4f4f4;font-size:14px;padding:5px 5px;}
 .table_new th.title{padding-left:10px;text-align:left;}
 .table_new td{border:1px dotted #ccc;color:#717171;line-height:200%; padding:5px 5px;}
 .table_new input{
@@ -216,10 +224,10 @@ img.operator{width:12px;height:12px;margin:0 6px;cursor:pointer; vertical-align:
 	.border_table1 td.attr{white-space:pre-wrap; text-align:left;}
 	.border_table1 thead th{color:#333;white-space:nowrap;text-align:center;background:url(/cms/images/admin_bg.gif) repeat-x 0 -191px}
 	.border_table1 tbody th{padding-right:5px; text-align:right;color:#707070;background-color:#f9f9f9}
-.border_table_blue{border:1px solid #ddd;margin:10px 5px;background:#fff}
-	.border_table_blue th{padding:3px 10px 3px 17px; font-size:14px;vertical-align:middle;white-space:nowrap;word-break:keep-all;border-bottom:1px solid #ddd;}
-	.border_table_blue td{padding:4px 5px;}
-	.border_table_blue thead th{white-space:nowrap;text-align:center; text-align:left; padding-left:17px;}
+.border_table_org{border:1px solid #ed8a0a;margin:10px 5px;background:#fff}
+	.border_table_org th{padding:3px 10px 3px 17px; font-size:14px;vertical-align:middle;white-space:nowrap;word-break:keep-all;border-bottom:1px solid #ed8a0a;}
+	.border_table_org td{padding:4px 5px;}
+	.border_table_org thead th{color:#fff;white-space:nowrap;text-align:center; text-align:left; padding-left:17px;background:url(/cms/images/admin_bg.gif) repeat-x 0 -561px}
 	table.list_table2 td,table.list_table2 th{color:#7d7d7d;text-align:right; font-size:12px;background-color:#fefaf6; border-top:5px solid #fff; border-bottom:5px solid #fff;}
 	table.list_table2 th{color:#474747; font-size:14px; font-weight:normal;}
 	table.list_table2 a:link,table.list_table2 a:visited{color:#b9b9b9; text-decoration:underline;}
@@ -319,7 +327,7 @@ body#login #footer{position:absolute;left:0;bottom:0;width:100%;height:36px; lin
 span.prt,span.prted{ background: url(../images/admin/prt.gif) 0 0;color:#333;cursor:pointer;display:inline-block;font-weight:400;height:17px;line-height:17px;margin: 2px 2px 0;text-align:center;vertical-align:top;width:16px;}
 span.prt{background-position: 0 -17px;}
 
-.red_box{border:1px solid #ddd; background-color:#f1f1f1;line-height:18px; color:#1a53ff; margin:10px 10px 0px 5px; padding:5px; text-align:left}
+.red_box{border:1px solid #ff8080; background-color:#fff2f2;line-height:18px; color:#e43d03; margin:10px 10px 0px 5px; padding:5px; text-align:left}
 	.red_box img{margin:0 9px; vertical-align: text-bottom;_vertical-align:middle}
 
 .upgrade_box{padding: 30px 100px 0px 30px;}

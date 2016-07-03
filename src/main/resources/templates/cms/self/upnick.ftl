@@ -4,49 +4,56 @@
 	<title>后台管理</title>
 	<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
 	<link rel="stylesheet" href="/cms/css/admin.css">
-	<link rel="shortcut icon" href="/cms/images/favicon.ico">
+    <link rel='stylesheet' href='/cms/css/theme-default.css' type='text/css' media='screen' />
 	<script type="text/javascript" charset="UTF-8" src="/cms/script/jquery-1.9.1.min.js"></script>
-	<link rel="stylesheet" type="text/css" href="/cms/script/jquery/themes/default/easyui.css">
-	<link rel="stylesheet" type="text/css" href="/cms/script/jquery/themes/icon.css">
-	<script type="text/javascript" src="/cms/script/jquery/jquery.easyui.min.js"></script>
-	<link rel="stylesheet" type="text/css" href="/cms/script/jquery/demo/demo.css">
 </head>
-<body style="zoom: 1;"><div class="" style="display: none; position: absolute;"><div class="aui_outer"><table class="aui_border"><tbody><tr><td class="aui_nw"></td><td class="aui_n"></td><td class="aui_ne"></td></tr><tr><td class="aui_w"></td><td class="aui_c"><div class="aui_inner"><table class="aui_dialog"><tbody><tr><td colspan="2" class="aui_header"><div class="aui_titleBar"><div class="aui_title" style="cursor: move; display: block;"></div><a class="aui_close" href="javascript:/*artDialog*/;" style="display: block;">×</a></div></td></tr><tr><td class="aui_icon" style="display: none;"><div class="aui_iconBg" style="background: none;"></div></td><td class="aui_main" style="width: auto; height: auto;"><div class="aui_content" style="padding: 20px 25px;"></div></td></tr><tr><td colspan="2" class="aui_footer"><div class="aui_buttons" style="display: none;"></div></td></tr></tbody></table></div></td><td class="aui_e"></td></tr><tr><td class="aui_sw"></td><td class="aui_s"></td><td class="aui_se" style="cursor: se-resize;"></td></tr></tbody></table></div></div>
-	<div class="container">
+<body style="zoom: 1;">
+	<div class="b-container">
 		<#include "../top_menu.ftl"/>
-		<div id="info_bar" >
-			<label class="navindex" style="display:none;"><a href="#">快速导航管理</a></label>
-			<span class="nav_sec"></span>
-		</div>
-		<#include "left_menu.ftl"/>
-		
+		 <div id="modulemenu" >
+           <ul class="nav">
+           <li data-id="list"><a id="currentItem" href="javascript:showDropMenu('project', '1046', 'project', 'task', 'unclosed')">快速导航 <span class="icon-caret-right"></span></a></li>
 
-		<div id="admin_right">
-			<div class="position"><span>系统</span><span>|</span><span>个人资料</span><span>|</span><span>修改昵称</span></div>
-			<div class="content form_content" >
-			
-			
-		<form action="/cms/self/upnick" method="post" >
-		<table class="table_new">
-				<tbody>
-				<tr><th width="20%"></th><td><span style="color:green;"><c:out value="${KEY_RESULT_MESSAGE?default("")}"  /></span></td></tr>
-				<tr>
-					<th width="20%" align="right">您的昵称:</th>
-					<td><input id="nick_input" type="text" class="easyui-textbox" name="nick"  alt="昵称必须填写" value="${nick}" /><label id="nick_input_info">* 显示名称</label></td>
-				</tr>
-				
-				<tr>
-					<th></th>
-					<td>
-						<button class="easyui-linkbutton" type="submit" onclick="return checkFiled();"><span>保存设置</span></button>
-					</td>
-				</tr>
-			</tbody>
-		</table>
-	</form>
-</div>
-		</div>
-		<div id="separator"></div>
+           <li  data-id="task"><a href="/cms/self/welcome">系统</a>
+           </li>
+           <li  data-id="story"><a href="/cms/self/upnick">修改昵称</a>
+           </li>
+
+           </ul>
+        </div>
+
+		
+         <div id="wrap">
+             <div class="outer with-side with-transition" style="min-height: 600px;">
+                <#include "left_menu.ftl"/>
+                 <div id="admin_right">
+                    <div class="position"><span>系统</span><span>|</span><span>个人资料</span><span>|</span><span>修改昵称</span></div>
+                   <div class="content form_content">
+                    <form action="/cms/self/upnick" method="post">
+                     <table class="table_new">
+                      <tbody>
+                       <tr>
+                        <th width="20%"></th>
+                        <td><span style="color:green;">
+                          <c:out value="${KEY_RESULT_MESSAGE?default(" ")}"="" /></span></td>
+                       </tr>
+                       <tr>
+                        <th width="20%" style="text-align:right;">您的昵称:</th>
+                        <td><input id="nick_input" style="display:inline-block;" class="form-control" name="nick" alt="昵称必须填写" value="${nick}" /><label id="nick_input_info" style="display:inline-block;" >* 显示名称</label></td>
+                       </tr>
+                       <tr>
+                        <th></th>
+                        <td> <button class="btn btn-primary" type="submit" onclick="return checkFiled();">保存设置</button> </td>
+                       </tr>
+                      </tbody>
+                     </table>
+                    </form>
+                   </div>
+                  </div>
+             </div>
+         </div>
+
+
 	</div>
 
 	<script type="text/javascript">

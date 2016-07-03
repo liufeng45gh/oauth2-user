@@ -32,7 +32,7 @@
 				<tbody>
 				<tr><th width="20%"></th><td><span style="color:green;"><c:out value="${KEY_RESULT_MESSAGE}"  /></span></td></tr>
 				<tr>
-					<th width="20%" align="right">您的昵称:</th>
+					<th width="20%" style="text-align:right;">您的昵称:</th>
 					<td><input id="nick_input" type="text" class="easyui-textbox" name="nick"  alt="昵称必须填写" value="<c:out value="${nick}"/>" /><label id="nick_input_info">* 显示名称</label></td>
 				</tr>
 				

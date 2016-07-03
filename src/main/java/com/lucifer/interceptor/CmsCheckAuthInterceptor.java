@@ -36,6 +36,9 @@ public class CmsCheckAuthInterceptor extends HandlerInterceptorAdapter{
 		if(request.getRequestURI().startsWith("/cms/script")){
 			return true;
 		}
+		if(request.getRequestURI().startsWith("/cms/fonts")){
+			return true;
+		}
 		User user = (User)request.getSession().getAttribute(Constant.KEY_CMS_USER);
 		if(null==user){
 			//throw new Exception("not login!");

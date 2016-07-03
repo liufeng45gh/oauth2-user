@@ -1,5 +1,5 @@
 <%@ page language="java" pageEncoding="utf-8"%>
-<div id="admin_left" style="height:100%">
+<div id="admin_left" style="height:100%" class="side">
 	<ul class="submenu">
 		<li><span>后台首页</span>
 			<ul name="menu"><li id="left_menu_welcome"><a href="/cms/self/welcome">后台首页</a></li></ul>
