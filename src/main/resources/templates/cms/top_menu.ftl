@@ -1,3 +1,5 @@
+
+<script  type="text/javascript" src="/layer/layer.js"></script>
 <div id="header">
 
   <div id="topbar">
@@ -28,8 +30,9 @@
 	
 		<ul class="nav">
 		<!-- <li  id="top_munu_app"><a href="/cms/app/list" >应用</a></li> -->
-		<li  id="top_menu_user"><a href="/cms/user/list?page=1" >会员</a></li>				
-		<li  id="top_menu_self"><a href="/cms/self/welcome">系统</a></li>
+
+		<li  id="top_menu_self"><a href="/cms/self/welcome"><i class="icon-home"></i> <span> 我的地盘</span></a></li>
+		<li  id="top_menu_user"><a href="/cms/user/list?page=1" >账号管理</a></li>
 		</ul>
 	 
 	</div>

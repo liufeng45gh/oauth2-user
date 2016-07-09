@@ -119,7 +119,7 @@ public class UserDao extends IBatisBaseDao {
 		//this.removeUserCache(user);
 		 
 		user.setId(this.nextId());
-		user.setNickName(user.getAccount());
+		//user.setNickName(user.getAccount());
 		sqlSession.insert("insertUser",user);
 		//redisTemplate.opsForList().leftPush(RedisKeyPreConstant.USER_WILL_INSERT_QUEQUE, user);
 		 return user;
@@ -243,53 +243,7 @@ public class UserDao extends IBatisBaseDao {
 		return resultCount;
 	}
 
-	public Integer addFansCount(Map<String, Object> params) {		
-		Integer updateCount =  this.sqlSession.update("com.ninehcom.user.addFansCount", params);
-		String uesrId = params.get("followUserId").toString();
-		User user = this.getUserById(Long.valueOf(uesrId));
-		this.removeUserCache(user);
-		return updateCount;
-	}
 
-	public Integer subtractFansCount(Map<String, Object> params) {
-		Integer updateCount =  this.sqlSession.update("com.ninehcom.user.subtractFansCount",params);		
-		String uesrId = params.get("userId").toString();
-		User user = this.getUserById(Long.valueOf(uesrId));
-		this.removeUserCache(user);
-		return updateCount;
-	}
-
-	public Integer updateFansCount(Map<String, Object> params) {
-		
-		return this.sqlSession.update("com.ninehcom.user.updateFansCount", params);
-	}
-	
-	public Integer updateFollowers(Map<String, Object> params) {
-		
-		return this.sqlSession.update("com.ninehcom.user.updateFollowers", params);
-	}
-	
-
-
-	public Integer addFollowers(Map<String, Object> params) {		
-		Integer updateCount =  this.sqlSession.update("com.ninehcom.user.addFollowers", params);
-		String uesrId = params.get("userId").toString();
-		User user = this.getUserById(Long.valueOf(uesrId));
-		this.removeUserCache(user);
-		return updateCount;
-
-	}
-
-	public Integer subtractFollowers(Map<String, Object> params) {
-		Integer updateCount = this.sqlSession.update("com.ninehcom.user.subtractFollowers",params);
-		String uesrId = params.get("followUserId").toString();
-		User user = this.getUserById(Long.valueOf(uesrId));
-		this.removeUserCache(user);
-		return updateCount;
-	}
-	
-
-	
 
 	
 	public List<User> userCmsSearch(String sql){
@@ -349,6 +303,11 @@ public class UserDao extends IBatisBaseDao {
 	@SuppressWarnings("rawtypes")
 	public Integer getUserInfoListCount(Map params){
 		return (Integer)sqlSession.selectOne("getUserInfoListCount", params);
+	}
+
+
+	public void setUserBlock(User user){
+		sqlSession.update("setUserBlock",user);
 	}
 
 

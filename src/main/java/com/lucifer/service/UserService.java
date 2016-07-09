@@ -78,9 +78,7 @@ public class UserService {
 		if (user.getNickName().equals(dbUser.getNickName())) {
 			return Result.ok();
 		}
-		if (!dbUser.getCanUpNick()) {
-			return Result.fail("昵称已经修改过一次以上");
-		}
+
 		if (userDao.isNickExist(user.getNickName())) {
 			return Result.fail("昵称已被其他人占用");
 		}
@@ -95,87 +93,49 @@ public class UserService {
 	}
 	
 	public List userCmsSearch(SearchParam param){
-		String sql = "select * from user left outer join user_level on user.id =user_level.user_id  where 1=1 ";
+		String sql = "select * from user   where 1=1 ";
 		if (!StringHelper.isEmpty(param.getAccount())) {
 			sql = sql + "and user.account like '"+param.getAccount()+"%' ";
 		}
 		if (!StringHelper.isEmpty(param.getNickName())) {
 			sql = sql + "and user.nick_name like '"+param.getNickName()+"%' ";
 		}
-		if (!StringHelper.isEmpty(param.getCity())) {
-			sql = sql + "and user.city = '"+param.getCity()+"' ";
+
+		if (!StringHelper.isEmpty(param.getStatus())) {
+			sql = sql + "and user.status = '"+param.getStatus()+"' ";
 		}
-		if (!StringHelper.isEmpty(param.getPhone())) {
-			sql = sql + "and user.phone = '"+param.getPhone()+"' ";
-		}
-		if (!StringHelper.isEmpty(param.getSex())) {
-			sql = sql + "and user.sex = '"+param.getSex()+"' ";
-		}
-		if (!StringHelper.isEmpty(param.getBirthday())) {
-			sql = sql + "and user.birth = '"+param.getBirthday()+"' ";
-		}
-		if (null != param.getLevel()) {
-			sql = sql + "and user_level = '"+param.getLevel()+"' ";
+		if (!StringHelper.isEmpty(param.getRoleId())) {
+			sql = sql + "and user.role_id = '"+param.getRoleId()+"' ";
 		}
 		sql = sql + "order by user.id desc limit "+param.getOffset()+","+param.getCount();
 		
-		if (null != param.getCheckRank()) {
-			sql = String.format("select * from user where id = (select user_id from user_checkin_rank order by max_in_days desc limit %s,1)", param.getCheckRank().toString());
-		}
+
 		
 		logger.info("sql is : "+sql);
 		
 		List<User> userList = userDao.userCmsSearch(sql);
-		ObjectMapper objectMapper = new ObjectMapper();
-		List list = new ArrayList();
-	    for (User user: userList) {
-	    	 @SuppressWarnings("unchecked")
-	 	    Map<String, Object> objectAsMap = objectMapper.convertValue(user, Map.class);
-//	    	 UserLevel userLevel = userDao.getUserLevel(user.getUserId());
-//	    	 if (null !=  userLevel) {
-//	    		 objectAsMap.put("level", userLevel.getLevel());
-//	    	 }
-//
-//	    	 UserCheckinRank userCheckRank = userCheckinDao.getUserCheckinRankWithIndex(user.getUserId());
-//	    	 if (null != userCheckRank) {
-//	    		 objectAsMap.put("userCheckRank",userCheckRank.getIndex());
-//	    	 }
-	    	 list.add(objectAsMap);
-	    }
+
 	   
 		
-		return list;
+		return userList;
 	}
 	
 	public Integer userCmsSearchCount(SearchParam param){
-		String sql = "select count(*) from user left outer join user_level on user.id =user_level.user_id  where 1=1 ";
+		String sql = "select count(*) from user  where 1=1 ";
 		if (!StringHelper.isEmpty(param.getAccount())) {
 			sql = sql + "and user.account like '"+param.getAccount()+"%' ";
 		}
 		if (!StringHelper.isEmpty(param.getNickName())) {
 			sql = sql + "and user.nick_name like '"+param.getNickName()+"%' ";
 		}
-		if (!StringHelper.isEmpty(param.getCity())) {
-			sql = sql + "and user.city = '"+param.getCity()+"' ";
+
+		if (!StringHelper.isEmpty(param.getStatus())) {
+			sql = sql + "and user.status = '"+param.getStatus()+"' ";
 		}
-		if (!StringHelper.isEmpty(param.getPhone())) {
-			sql = sql + "and user.phone = '"+param.getPhone()+"' ";
+		if (!StringHelper.isEmpty(param.getRoleId())) {
+			sql = sql + "and user.role_id = '"+param.getRoleId()+"' ";
 		}
-		if (!StringHelper.isEmpty(param.getSex())) {
-			sql = sql + "and user.sex = '"+param.getSex()+"' ";
-		}
-		if (!StringHelper.isEmpty(param.getBirthday())) {
-			sql = sql + "and user.birth = '"+param.getBirthday()+"' ";
-		}
-		if (null != param.getLevel()) {
-			sql = sql + "and user_level = '"+param.getLevel()+"' ";
-		}
-		
-		
-		if (null != param.getCheckRank()) {
-			return 1;
-		}
-		
+
 		logger.info("sql is : "+sql);
 		
 		Integer recordCount  = userDao.userCmsSearchCount(sql);
@@ -214,6 +174,14 @@ public class UserService {
 		user.setUpdatedAt(DateUtils.now());
 		userDao.insertUser(user);
 		return user;
+	}
+
+	public void resetUserPassword(User user){
+		String salt = RandomUtil.getNextSalt();
+		user.setSalt(salt);
+		String encrypt_password = Md5Utils.md5(Md5Utils.md5(user.getPassword()) + salt);
+		user.setPassword(encrypt_password);
+		userDao.updatePassword(user);
 	}
 
 	

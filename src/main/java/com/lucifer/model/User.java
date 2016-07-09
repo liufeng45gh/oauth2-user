@@ -67,7 +67,7 @@ public class User implements Serializable{
 	private String salt;
 	
 	// app_tag   在不同的App上的激活标签
-	private String role;
+	private String roleId;
 	
 	//验证码
 	private String code;
@@ -102,13 +102,7 @@ public class User implements Serializable{
 	
 	private Date birth;
 	
-	// fans_count 用户的粉丝数
-	private Integer fansCount;
 
-	// followers  用户关注的人数
-	private Integer followsCount;
-	
-	private Integer nickUpTimes;
 
 	// 创建时间（记录）
 	@DateTimeFormat(pattern="yyyy-MM-dd HH:mm:ss")
@@ -218,12 +212,12 @@ public class User implements Serializable{
 		this.salt = salt;
 	}
 
-	public String getRole() {
-		return role;
+	public String getRoleId() {
+		return roleId;
 	}
 
-	public void setRole(String role) {
-		this.role = role;
+	public void setRoleId(String roleId) {
+		this.roleId = roleId;
 	}
 
 	public String getRePassword() {
@@ -317,37 +311,9 @@ public class User implements Serializable{
 		this.birth = birth;
 	}
 
-	public Integer getNickUpTimes() {
-		return nickUpTimes;
-	}
 
-	public void setNickUpTimes(Integer nickUpTimes) {
-		this.nickUpTimes = nickUpTimes;
-	}
-	
-	public boolean getCanUpNick(){
-		if (null == nickUpTimes) {
-			return true;
-		}
-		if (nickUpTimes<1) {
-			return true;
-		}
-		return false;
-	}
 		
-	public void setCanUpNick(Boolean canUpNick){
-		//do nothing
-	}
 
-	
-
-	public Integer getFansCount() {
-		return fansCount;
-	}
-
-	public void setFansCount(Integer fansCount) {
-		this.fansCount = fansCount;
-	}
 
 	@DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
 	@JsonSerialize(using=DateTimeSerializer.class)

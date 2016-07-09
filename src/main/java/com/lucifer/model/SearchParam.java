@@ -25,6 +25,10 @@ public class SearchParam {
     
     private Integer count;
 
+    private String roleId;
+
+    private String status;
+
     public String getAccount() {
         return account;
     }
@@ -116,6 +120,20 @@ public class SearchParam {
 		Integer offset = (this.getPage()-1)*this.getCount();
 		return offset;
 	}
-    
-    
+
+    public String getRoleId() {
+        return roleId;
+    }
+
+    public void setRoleId(String roleId) {
+        this.roleId = roleId;
+    }
+
+    public String getStatus() {
+        return status;
+    }
+
+    public void setStatus(String status) {
+        this.status = status;
+    }
 }

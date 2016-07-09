@@ -10,12 +10,11 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		<result column="weixin_id" property="weixinId"/>
 		<result column="weibo_id" property="weiboId"/>
 		<result column="qq_id" property="qqId"/>
-		<result column="nh_id" property="nhId"/>
 		<result column="phone" property="phone"/>
 		<result column="mail" property="mail"/>
 		<result column="password" property="password"/>
 		<result column="salt" property="salt"/>
-		<result column="role" property="role"/>
+		<result column="role_id" property="roleId"/>
 		<result column="nick_name" property="nickName"/>
 		<result column="avatar" property="avatar"/>
 		<result column="true_name" property="trueName"/>
@@ -24,9 +23,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		<result column="city" property="city"/>
 		<result column="cardId" property="cardId"/>
 		<result column="birth" property="birth"/>
-		<result column="nick_up_times" property="nickUpTimes"/>
-		<result column="fans_count" property="fansCount"/>
-		<result column="follows_count" property="followsCount"/>
+
 		<result column="status" property="status"/>
 		<result column="created_at" property="createdAt"/>
 		<result column="updated_at" property="updatedAt"/>
@@ -112,6 +109,24 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		<if test="offset != null and perPageCount != null">
 			limit #{offset},#{perPageCount}
 		</if>
+	</select>
+
+
+	<insert id="insertUser">
+		insert into user
+		(id,uuid,account,password,salt,role_id,nick_name,created_at,updated_at,status)
+		values
+		(#{id},#{uuid},#{account},#{password},#{salt},#{roleId},#{nickName},#{createdAt},#{updatedAt},#{status})
+	</insert>
+	
+	<update id="setUserBlock">
+		update user set status = #{status} where id = #{id}
+	</update>
+	<select id="userCmsSearch"  resultMap="userMap">
+		${_parameter}
+	</select>
+	<select id="userCmsSearchCount" resultType="java.lang.Integer">
+		${_parameter}
 	</select>
 
 

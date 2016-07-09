@@ -4,7 +4,8 @@
     </div>
     <div class="panel-body">
         <ul class="tree tree-lines" >
-            <li data-idx="1" data-id="1" id="left_menu_welcome"><a href="/cms/user/list?page=1" >会员列表</a> </li>
+            <li  id="left_menu_welcome"><a href="/cms/user/list?page=1" >账号列表</a> </li>
+             <li  id="left_menu_add"><a href="/cms/user/add" >新建账号</a> </li>
         </ul>
     </div>
 
