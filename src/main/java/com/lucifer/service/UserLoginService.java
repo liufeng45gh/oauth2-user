@@ -2,7 +2,8 @@ package com.lucifer.service;
 
 
 import com.lucifer.dao.UserDao;
-import com.lucifer.exception.LoginException;
+import com.lucifer.exception.Oauth2CodeInvalidException;
+import com.lucifer.exception.Oauth2LoginException;
 import com.lucifer.exception.NoAuthException;
 import com.lucifer.model.AccessToken;
 import com.lucifer.model.User;
@@ -11,14 +12,10 @@ import org.apache.commons.httpclient.Header;
 import org.apache.commons.httpclient.HttpClient;
 import org.apache.commons.httpclient.HttpException;
 import org.apache.commons.httpclient.methods.GetMethod;
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
 import org.json.JSONException;
 import org.json.JSONObject;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
@@ -85,8 +82,8 @@ public class UserLoginService {
 			return Result.fail("密码错误");
 		}
 
-		AccessToken accessToken = userDao.resetUserLoginToken(dbUser.getId());
-		return this.loginSuccess(dbUser,accessToken.getAccessToken());
+		AccessToken accessToken = userDao.newUserLoginToken(dbUser.getId());
+		return this.loginSuccess(dbUser,accessToken.getToken());
 //		dbUser.setPassword(user.getPassword());
 		//user.setPassword(Md5Utils.md5(user.getPassword()));
 		
@@ -107,14 +104,14 @@ public class UserLoginService {
 
 		User dbUser = userDao.getUserByAccount(user.getAccount());
 		if  (null == dbUser)  {
-			throw new LoginException("用户未找到");
+			throw new Oauth2LoginException("用户未找到");
 		}
 		String md5Password = Md5Utils.md5(Md5Utils.md5(user.getPassword())+dbUser.getSalt());
 		if (!md5Password.equals(dbUser.getPassword())) {
-			throw new LoginException("密码错误");
+			throw new Oauth2LoginException("密码错误");
 		}
 
-		AccessToken accessToken = userDao.resetUserLoginToken(dbUser.getId());
+		AccessToken accessToken = userDao.newUserLoginToken(dbUser.getId());
 		return accessToken;
 //		dbUser.setPassword(user.getPassword());
 		//user.setPassword(Md5Utils.md5(user.getPassword()));
@@ -157,8 +154,8 @@ public class UserLoginService {
 			//初始化
 			userService.userInit(dbUser.getId());
 		}
-		AccessToken accessToken  = userDao.resetUserLoginToken(dbUser.getId());
-		return  this.loginSuccess(dbUser,accessToken.getAccessToken());
+		AccessToken accessToken  = userDao.newUserLoginToken(dbUser.getId());
+		return  this.loginSuccess(dbUser,accessToken.getToken());
 		
 	}
 	/**
@@ -232,8 +229,8 @@ public class UserLoginService {
 			userService.userInit(user.getId());
 			dbUser =  userDao.getUserByWeixinId(user.getWeixinId());
 		}
-		AccessToken accessToken =  userDao.resetUserLoginToken(dbUser.getId());
-		return this.loginSuccess(dbUser,accessToken.getAccessToken());
+		AccessToken accessToken =  userDao.newUserLoginToken(dbUser.getId());
+		return this.loginSuccess(dbUser,accessToken.getToken());
 	}
 	
 	public Boolean checkWeixinToken(String accessToken,String openId) throws HttpException, IOException, JSONException {
@@ -316,8 +313,8 @@ public class UserLoginService {
 			userService.userInit(user.getId());
 			dbUser =  userDao.getUserByQqId(user.getQqId());
 		}
-		AccessToken accessToken =   userDao.resetUserLoginToken(dbUser.getId());
-		return this.loginSuccess(dbUser,accessToken.getAccessToken());
+		AccessToken accessToken =   userDao.newUserLoginToken(dbUser.getId());
+		return this.loginSuccess(dbUser,accessToken.getToken());
 	}
 
 	
@@ -326,8 +323,18 @@ public class UserLoginService {
 		userDao.removeToken(token);
 	}
 
-	public AccessToken getAccessTokenByCode(String code){
-		return userDao.getAccessTokenByCode(code);
+	public AccessToken loginByCode(String code) throws Oauth2CodeInvalidException {
+		AccessToken accessToken =  userDao.getAccessTokenByCode(code);
+		if (null == accessToken) {
+			throw new Oauth2CodeInvalidException("code 无效");
+		}
+		logger.info("accessToken is : "+accessToken);
+		logger.info("accessToken.getCodeLogin() is : "+accessToken.getCodeLogin());
+		if (new Integer(1).equals(accessToken.getCodeLogin())) {
+			throw new Oauth2CodeInvalidException("code 已登录");
+		}
+		userDao.setCodeInvalid(code);
+		return  accessToken;
 	}
 
 	public AccessToken getAccessTokenByToken(String accessToken){

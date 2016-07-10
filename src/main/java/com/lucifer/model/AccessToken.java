@@ -7,9 +7,11 @@ public class AccessToken {
 
     private Long userId;
 
-    private String accessToken;
+    private String token;
 
     private String code;
+
+    private Integer codeLogin;
 
     public Long getUserId() {
         return userId;
@@ -19,12 +21,12 @@ public class AccessToken {
         this.userId = userId;
     }
 
-    public String getAccessToken() {
-        return accessToken;
+    public String getToken() {
+        return token;
     }
 
-    public void setAccessToken(String accessToken) {
-        this.accessToken = accessToken;
+    public void setToken(String token) {
+        this.token = token;
     }
 
     public String getCode() {
@@ -33,5 +35,13 @@ public class AccessToken {
 
     public void setCode(String code) {
         this.code = code;
+    }
+
+    public Integer getCodeLogin() {
+        return codeLogin;
+    }
+
+    public void setCodeLogin(Integer codeLogin) {
+        this.codeLogin = codeLogin;
     }
 }

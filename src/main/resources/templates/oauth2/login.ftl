@@ -6,7 +6,8 @@
     <meta http-equiv="X-UA-Compatible" content="IE=Edge" />
     <title>Oauth2.0-授权登录</title>
     <link type="text/css" rel="stylesheet"  href="/web/css/login.css" source="widget"/>
-
+    <script type="text/javascript" charset="UTF-8" src="/oauth2/script/jquery-1.9.1.min.js"></script>
+    <script type="text/javascript" charset="UTF-8" src="/oauth2/script/login.js"></script>
     </head>
 <body>
 <!-- SDK 登录 -->
@@ -23,26 +24,28 @@
 
                         </div>
                         <div class="msg-wrap">
-                            <div class="msg-warn hide"><b></b></div>
-                            <div class="msg-error hide"><b></b></div>
+                            <#if Request["KEY_RESULT_MESSAGE"]?exists>
+                               <div class="msg-error">${KEY_RESULT_MESSAGE}</div>
+                            </#if>
+
                         </div>
                         <div class="mc">
                             <div class="form">
-                                <form id="formlogin" method="post" onsubmit="return false;">
+                                <form id="formlogin" method="post" action="/oauth2.0/authorize">
 
                                                                         <div class="item item-fore1">
                                         <label for="loginname" class="login-label name-label"></label>
-                                        <input type="hidden" id="response_type" value="${response_type}">
-                                        <input type="hidden" id="client_id" value="${client_id}">
-                                        <input type="hidden" id="redirect_uri" value="${redirect_uri}">
-                                        <input id="loginname" type="text" class="itxt" name="loginname" tabindex="1" autocomplete="off"
-                                                                                           placeholder="邮箱/用户名/已验证手机" />
+                                        <input type="hidden" name="response_type" value="${response_type?default("")}">
+                                        <input type="hidden" name="client_id" value="${client_id?default("")}">
+                                        <input type="hidden" name="redirect_uri" value="${redirect_uri?default("")}">
+                                        <input id="loginname" type="text" class="itxt" name="account" tabindex="1" autocomplete="off"
+                                                                                           placeholder="邮箱/用户名/手机" />
                                         <span class="clear-btn"></span>
                                     </div>
                                     <div id="entry" class="item item-fore2">
                                         <label class="login-label pwd-label" for="nloginpwd"></label>
                                         <label id="sloginpwd" style="display: none;"></label>
-                                        <input type="password" id="nloginpwd" name="nloginpwd" class="itxt itxt-error" tabindex="2" autocomplete="off" placeholder="密码"/>
+                                        <input type="password" id="nloginpwd" name="password" class="itxt itxt-error" tabindex="2" autocomplete="off" placeholder="密码"/>
 
                                         <span class="clear-btn"></span>
                                         <span class="capslock"><b></b>大小写锁定已打开</span>
@@ -50,10 +53,11 @@
                                     <div class="item item-fore3">
                                         <div class="safe">
                                         <span>
-                                            <input id="autoLogin" name="chkRememberMe" type="checkbox" class="jdcheckbox" tabindex="3"  clstag="pageclick|keycount|20150112ABD|6">
+                                            <input id="autoLogin" name="chkRememberMe" type="checkbox" class="jdcheckbox">
                                             <label for="">自动登录</label>
-                                        </span>                                                                                        <span class="forget-pw-safe">
-                                            <a href="#" class="" target="_blank" clstag="pageclick|keycount|20150112ABD|8">忘记密码?</a>
+                                        </span>
+                                        <span class="forget-pw-safe">
+                                            <a href="#" class="" target="_blank" >忘记密码?</a>
                                         </span>
                                         </div>
 
@@ -62,7 +66,7 @@
 
                                     <div class="item item-fore5">
                                         <div class="login-btn">
-                                            <a href="javascript:;" class="btn-img btn-entry" id="loginsubmit" tabindex="6" clstag="pageclick|keycount|20150112ABD|2">登&nbsp;&nbsp;&nbsp;&nbsp;录</a>
+                                            <a href="javascript:;" class="btn-img btn-entry" onclick="loginSubmit();">登&nbsp;&nbsp;&nbsp;&nbsp;录</a>
                                         </div>
                                     </div>
                                 </form>
@@ -74,7 +78,7 @@
 
                                     </div>
             </div>
-            <div class="login-banner" clstag="pageclick|keycount|20150112ABD|46">
+            <div class="login-banner" >
                 <div class="w">
                     <div id="banner-bg" class="i-inner"
                                                     >
@@ -96,5 +100,6 @@
     </div>
 
     </body>
+
 </html>
 

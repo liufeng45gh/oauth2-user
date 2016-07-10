@@ -31,8 +31,9 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 
 	<resultMap type="com.lucifer.model.AccessToken" id="accessTokenMap">
 		<id column="user_id" property="userId"/>
-		<result column="accecc_token" property="accessToken"/>
+		<result column="access_token" property="token"/>
 		<result column="code" property="code"/>
+		<result column="code_login" property="codeLogin"/>
 	</resultMap>
 
 	
@@ -81,6 +82,12 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	<update id="resetUserLoginToken">
 		update access_token set access_token = #{token}, code = #{code} where user_id = #{userId}
 	</update>
+	<insert id="insertUserLoginToken">
+		insert into access_token (user_id,access_token,code,code_login) values (#{userId},#{token},#{code},#{codeLogin})
+	</insert>
+	<update id="setCodeInvalid">
+		update access_token set code_login = 1 where code = #{code}
+	</update>
 	<delete id="removeToken">
 		delete from access_token where access_token = #{token}
 	</delete>
@@ -90,7 +97,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	</select>
 
 	<select id="getAccessTokenByToken" resultMap="accessTokenMap">
-		select * from access_token where access_token = #{accessToken}
+		select * from access_token where access_token = #{token}
 	</select>
 
 	<select id="getUserInfoListCount" resultType="java.lang.Integer">

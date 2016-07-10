@@ -271,15 +271,15 @@ public class UserDao extends IBatisBaseDao {
 		return sqlSession.selectOne("getUserIdByToken",token);
 	}
 
-	public AccessToken resetUserLoginToken(Long userId){
+	public AccessToken newUserLoginToken(Long userId){
 		AccessToken accessToken = new AccessToken();
 		String token = RandomStringUtils.randomAlphanumeric(20);
 		String code = RandomStringUtils.randomAlphanumeric(20);
-		accessToken.setAccessToken(token);
+		accessToken.setToken(token);
 		accessToken.setUserId(userId);
 		accessToken.setCode(code);
 
-		this.sqlSession.update("resetUserLoginToken",accessToken);
+		this.sqlSession.insert("insertUserLoginToken",accessToken);
 		return accessToken;
 	}
 
@@ -289,6 +289,10 @@ public class UserDao extends IBatisBaseDao {
 
 	public AccessToken getAccessTokenByCode(String code){
 		return this.sqlSession.selectOne("getAccessTokenByCode",code);
+	}
+
+	public void setCodeInvalid(String code){
+		this.sqlSession.update("setCodeInvalid",code);
 	}
 
 	public AccessToken getAccessTokenByToken(String accessToken){

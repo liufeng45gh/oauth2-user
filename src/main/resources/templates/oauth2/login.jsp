@@ -5,7 +5,7 @@
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
     <meta http-equiv="X-UA-Compatible" content="IE=Edge" />
     <title>Oauth2.0-授权登录</title>
-    <link type="text/css" rel="stylesheet"  href="/web/css/login.css" source="widget"/>
+    <link type="text/css" rel="stylesheet"  href="/oauth2/css/login.css" source="widget"/>
 
     </head>
 <body>

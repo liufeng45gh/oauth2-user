@@ -1,6 +1,7 @@
 package com.lucifer.controller;
 
 
+import com.lucifer.exception.Oauth2CodeInvalidException;
 import com.lucifer.model.AccessToken;
 import com.lucifer.model.User;
 import com.lucifer.service.UserLoginService;
@@ -48,36 +49,36 @@ public class Oauth2Controller {
 
     @ApiOperation(value = "oauth2登录")
     @RequestMapping(value = "/authorize",method= RequestMethod.POST)
-    @ResponseBody
-    public Result login(Model model,
+    public String login(Model model,
                         @RequestParam(value = "response_type") String responseType,
                         @RequestParam(value = "client_id") String clientId,
                         @RequestParam(value = "redirect_uri")String redirectUri,
                         User user) throws Exception {
         AccessToken accessToken = userLoginService.oauth2LoginByAccount(user);
+
         String url = null;
         if ("code".equals(responseType)) {
             url = redirectUri+"?code="+accessToken.getCode();
-            return Result.ok(url);
+            return "redirect:"+ url;
         }else if ("token".equals(responseType)) {
-            url = redirectUri+"?access_token="+accessToken.getAccessToken();
+            url = redirectUri+"?access_token="+accessToken.getToken();
+            return "redirect:" + url;
         }
 
-        return Result.ok();
+        return  "oauth2/login";
     }
 
     @RequestMapping(value = "/token",method= RequestMethod.GET)
-    @ResponseBody
-    public Map token(@RequestParam(value = "grant_type") String grantType,
+    public String token(@RequestParam(value = "grant_type") String grantType,
                      @RequestParam(value = "client_id") String clientId,
                      @RequestParam(value = "client_secret") String clientSecret,
                      @RequestParam(value = "redirect_uri")String redirectUri,
                      @RequestParam(value = "code") String code,
-                     HttpServletResponse response) throws IOException {
-        AccessToken accessToken = userLoginService.getAccessTokenByCode(code);
-        String url = redirectUri+"?access_token="+accessToken.getAccessToken();
-        response.sendRedirect(url);
-        return null;
+                     HttpServletResponse response) throws IOException, Oauth2CodeInvalidException {
+        AccessToken accessToken = userLoginService.loginByCode(code);
+        String url = redirectUri+"?access_token="+accessToken.getToken();
+        //response.sendRedirect(url);
+        return "redirect:" + url;
     }
 
     @RequestMapping(value = "/me",method= RequestMethod.GET)
