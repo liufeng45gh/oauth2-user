@@ -9,9 +9,9 @@ spring:
 # DATASOURCE
 jdbc:
     driverClass: com.mysql.jdbc.Driver
-    url: jdbc:mysql://114.215.101.61/auth2_user?useUnicode=true&characterEncoding=utf-8&autoReconnect=true&rewriteBatchedStatements=TRUE&zeroDateTimeBehavior=convertToNull
+    url: jdbc:mysql://test.haifuc.cn/auth2_user?useUnicode=true&characterEncoding=utf-8&autoReconnect=true&rewriteBatchedStatements=TRUE&zeroDateTimeBehavior=convertToNull
     username: root
-    password: lucifer
+    password: lucifer-HFC-20170501
 # MyBatis
 
 mybatis:
